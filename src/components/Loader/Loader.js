@@ -6,8 +6,9 @@ class LoaderEffect extends Component {
   state = {  }
   render() {
     return (
-			<Loader className={s.Loader}
-				type="TailSpin"
+			<Loader
+				className={s.Loader}
+				type="Puff"
 				color="#00BFFF"
 				height={150}
 				width={150}

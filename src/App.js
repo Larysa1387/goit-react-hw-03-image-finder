@@ -1,11 +1,13 @@
 import { Component } from 'react';
-// import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import './App.css';
 import imageAPI from './services/imageApi/imageApi.jsx';
 import Searchbar from './components/Searchbar';
 import ImageGallery from './components/ImageGallery';
 import Loader from './components/Loader';
 import Button from './components/Button';
+import Modal from './components/Modal';
 
 
 class App extends Component {
@@ -16,6 +18,7 @@ class App extends Component {
     largeImage: '',
     loading: false,
     error: null,
+    showModal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,7 +58,6 @@ class App extends Component {
   };
 
   handleFormSubmit = (searchQuery) => {
-    console.log(searchQuery);
     this.setState({
       searchQuery,
       images: [],
@@ -73,22 +75,40 @@ class App extends Component {
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
       });
-    }, 500)
+    }, 500);
+  };
+
+  modalOpen = (largeImage) => {
+    this.setState({
+      showModal: true,
+      largeImage,
+    });
+  };
+
+  modalClose = () => {
+    this.setState({
+      showModal: false,
+      largeImage: '',
+    });
   };
 
   render() {
-    const { loading, error, images } = this.state;
+    const { loading, error, images, showModal, largeImage } = this.state;
     return (
-			<div>
-				{/* <ToastContainer /> */}
-				{error && <h1>error.message</h1>}
-				<Searchbar onSubmit={this.handleFormSubmit} />
+      <div>
+        <ToastContainer autoClose={3000} />
+        {error && <h1>error.message</h1>}
+        <Searchbar onSubmit={this.handleFormSubmit} />
 
-				{loading && <Loader />}
-				{images && <ImageGallery images={images} />}
-				{images.length !== 0 && <Button onClick={this.onClickLoadMore} />}
-			</div>
-		);
+        {loading && <Loader />}
+        {images && <ImageGallery images={images} modalOpen={this.modalOpen} />}
+        {showModal && (
+          <Modal modalClose={this.modalClose} largeImage={largeImage} />
+        )}
+
+        {images.length !== 0 && <Button onClick={this.onClickLoadMore} />}
+      </div>
+    );
   }
 }
 

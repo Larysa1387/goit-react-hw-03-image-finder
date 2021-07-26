@@ -1,49 +1,49 @@
 import React, { Component } from 'react';
-// import {toast} from 'react-toastify';
+import {toast} from 'react-toastify';
 import s from './Searchbar.module.css';
 
 
 class Searchbar extends Component {
-	state = {
-		searchQuery: '',
-	};
+  state = {
+    searchQuery: '',
+  };
 
-	handleInputChange = (e) => {
-		const { value } = e.currentTarget;
-		this.setState({searchQuery:value.toLowerCase()});
-	};
+  handleInputChange = (e) => {
+    const { value } = e.currentTarget;
+    this.setState({searchQuery:value.toLowerCase()});
+  };
 
-	handleSubmit = (event) => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.state.searchQuery.trim() === '') {
-      // toast.error('🦄 Tipe your query!');
+      toast.warn('Tipe your query!');
       return
     }
-		this.props.onSubmit(this.state.searchQuery);
-		this.setState({ searchQuery: '' });
-	};
+    this.props.onSubmit(this.state.searchQuery);
+    this.setState({ searchQuery: '' });
+  };
 
-	render() {
-		return (
-			<header className={s.Searchbar}>
-				<form className={s.SearchForm} onSubmit={this.handleSubmit}>
-					<button type="submit" className={s.SearchForm_button}>
-						<span className={s.SearchForm_button_label}>Search</span>
-					</button>
+  render() {
+    return (
+      <header className={s.Searchbar}>
+        <form className={s.SearchForm} onSubmit={this.handleSubmit}>
+          <button type="submit" className={s.SearchForm_button}>
+            <span className={s.SearchForm_button_label}>Search</span>
+          </button>
 
-					<input
-						className={s.SearchForm_input}
-						type="text"
-						autoComplete="off"
-						autoFocus
+          <input
+            className={s.SearchForm_input}
+            type="text"
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
             value={this.state.searchQuery}
-						onChange={this.handleInputChange}
-					/>
-				</form>
-			</header>
-		);
-	}
+            onChange={this.handleInputChange}
+          />
+        </form>
+      </header>
+    );
+  }
 }
 
 export default Searchbar;
