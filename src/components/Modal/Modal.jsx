@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
+
 import s from './Modal.module.css';
 
 const modalRoot = document.querySelector('#modal-root');
-
 export default class Modal extends Component {
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -36,3 +37,8 @@ export default class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  largeImage: PropTypes.string.isRequired,
+  modalClose: PropTypes.func.isRequired,
+};
