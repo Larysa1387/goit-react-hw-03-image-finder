@@ -50,7 +50,7 @@ class App extends Component {
   checkNewFetchImages = (imagesArr) => {
     imagesArr === []
       ? this.setState({
-          images: imagesArr,
+        images: imagesArr,
         })
       : this.setState((prevState) => ({
           images: [...prevState.images, ...imagesArr],
@@ -61,6 +61,7 @@ class App extends Component {
     this.setState({
       searchQuery,
       images: [],
+      page:1
     });
   };
 
