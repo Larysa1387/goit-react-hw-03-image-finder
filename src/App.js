@@ -35,12 +35,12 @@ class App extends Component {
     const { searchQuery, page } = this.state;
     this.setState({ loading: true });
     imageAPI
-			.fetchImage(searchQuery, page)
-			.then((imagesArr) => this.checkNewFetchImages(imagesArr.hits))
-			.catch((error) => this.setState({ error }))
-			.finally(() =>
-				this.setState({ loading: !this.state.loading }),
-			);
+      .fetchImage(searchQuery, page)
+      .then((imagesArr) => this.checkNewFetchImages(imagesArr.hits))
+      .catch((error) => this.setState({ error }))
+      .finally(() =>
+        this.setState({ loading: !this.state.loading }),
+      );
   };
 
   checkNewFetchImages = (imagesArr) => {
@@ -96,19 +96,19 @@ class App extends Component {
   render() {
     const { loading, error, images, showModal, largeImage } = this.state;
     return (
-			<div>
-				<ToastContainer autoClose={3000} />
-				{error && <h1>error.message</h1>}
-				<Searchbar onSubmit={this.handleFormSubmit} />
+      <div>
+        <ToastContainer autoClose={3000} />
+        {error && <h1>error.message</h1>}
+        <Searchbar onSubmit={this.handleFormSubmit} />
 
-				{images && <ImageGallery images={images} modalOpen={this.modalOpen} />}
-				{showModal && (
-					<Modal modalClose={this.modalClose} largeImage={largeImage} />
-				)}
-				{loading && <Loader />}
-				{images.length !== 0 && <Button onClick={this.onClickLoadMore} />}
-			</div>
-		);
+        {images && <ImageGallery images={images} modalOpen={this.modalOpen} />}
+        {showModal && (
+          <Modal modalClose={this.modalClose} largeImage={largeImage} />
+        )}
+        {loading && <Loader />}
+        {images.length !== 0 && <Button onClick={this.onClickLoadMore} />}
+      </div>
+    );
   }
 }
 
