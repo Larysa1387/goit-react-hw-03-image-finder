@@ -12,7 +12,7 @@ class LoaderEffect extends Component {
 				color="#00BFFF"
 				height={150}
 				width={150}
-				timeout={5000}
+				timeout={3000}
 			/>
 		);
   }

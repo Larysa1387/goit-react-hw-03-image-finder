@@ -23,37 +23,35 @@ class App extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
-      this.setState({
-        loading: true,
-        page: 1,
-        searchQuery: this.state.searchQuery,
-        images: [],
-      });
       this.searchImagesFetch();
     }
+    window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+    });
   }
 
   searchImagesFetch = () => {
     const { searchQuery, page } = this.state;
+    this.setState({ loading: true });
     imageAPI
-      .fetchImage(searchQuery, page)
-      .then((imagesArr) => this.checkNewFetchImages(imagesArr.hits))
-      .catch((error) => this.setState({ error }))
-      .finally(() =>
-        this.setState((prevState) => ({
-          loading: false,
-          page: prevState.page + 1,
-        })),
-      );
+			.fetchImage(searchQuery, page)
+			.then((imagesArr) => this.checkNewFetchImages(imagesArr.hits))
+			.catch((error) => this.setState({ error }))
+			.finally(() =>
+				this.setState({ loading: !this.state.loading }),
+			);
   };
 
   checkNewFetchImages = (imagesArr) => {
     imagesArr === []
       ? this.setState({
         images: imagesArr,
+        page:1,
         })
       : this.setState((prevState) => ({
           images: [...prevState.images, ...imagesArr],
+          page: prevState.page + 1,
         }));
   };
 
@@ -61,23 +59,25 @@ class App extends Component {
     this.setState({
       searchQuery,
       images: [],
-      page:1
+      page: 1,
+      error:null,
     });
   };
 
   onClickLoadMore = () => {
     this.searchImagesFetch();
-    this.scrollGallery();
+
+    // this.scrollGallery();
   };
 
-  scrollGallery = () => {
-    setTimeout(() => {
-      window.scrollTo({
-        top: document.documentElement.scrollHeight,
-        behavior: 'smooth',
-      });
-    }, 500);
-  };
+  // scrollGallery = () => {
+    //   setTimeout(() => {
+    //   window.scrollTo({
+    //     top: document.documentElement.scrollHeight,
+    //     behavior: 'smooth',
+    //   });
+    // }, 500);
+  // };
 
   modalOpen = (largeImage) => {
     this.setState({
@@ -96,20 +96,19 @@ class App extends Component {
   render() {
     const { loading, error, images, showModal, largeImage } = this.state;
     return (
-      <div>
-        <ToastContainer autoClose={3000} />
-        {error && <h1>error.message</h1>}
-        <Searchbar onSubmit={this.handleFormSubmit} />
+			<div>
+				<ToastContainer autoClose={3000} />
+				{error && <h1>error.message</h1>}
+				<Searchbar onSubmit={this.handleFormSubmit} />
 
-        {loading && <Loader />}
-        {images && <ImageGallery images={images} modalOpen={this.modalOpen} />}
-        {showModal && (
-          <Modal modalClose={this.modalClose} largeImage={largeImage} />
-        )}
-
-        {images.length !== 0 && <Button onClick={this.onClickLoadMore} />}
-      </div>
-    );
+				{images && <ImageGallery images={images} modalOpen={this.modalOpen} />}
+				{showModal && (
+					<Modal modalClose={this.modalClose} largeImage={largeImage} />
+				)}
+				{loading && <Loader />}
+				{images.length !== 0 && <Button onClick={this.onClickLoadMore} />}
+			</div>
+		);
   }
 }
 
