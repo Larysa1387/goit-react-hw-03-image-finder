@@ -6,15 +6,15 @@ class LoaderEffect extends Component {
   state = {  }
   render() {
     return (
-			<Loader
-				className={s.Loader}
-				type="Puff"
-				color="#00BFFF"
-				height={150}
-				width={150}
-				timeout={3000}
-			/>
-		);
+      <Loader
+        className={s.Loader}
+        type="Puff"
+        color="#00BFFF"
+        height={150}
+        width={150}
+        timeout={3000}
+      />
+    );
   }
 }
 
