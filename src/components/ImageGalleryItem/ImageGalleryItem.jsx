@@ -5,7 +5,7 @@ import s from './ImageGalleryItem.module.css';
 const ImageGalleryItem = ({
   webformatURL,
   tags,
-  id,
+
   largeImage,
   modalOpen,
 }) => {
@@ -13,7 +13,7 @@ const ImageGalleryItem = ({
     modalOpen(largeImage);
   };
   return (
-    <li className={s.ImageGalleryItem} id={id} onClick={sendLargeImage}>
+    <li className={s.ImageGalleryItem}  onClick={sendLargeImage}>
       <img src={webformatURL} alt={tags} className={s.ImageGalleryItem_image} />
     </li>
   );

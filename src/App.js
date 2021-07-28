@@ -24,11 +24,16 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.searchImagesFetch();
-    }
-    window.scrollTo({
+      window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+    } else if (this.state.page > 2) {
+        window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
-    });
+      });
+    }
   }
 
   searchImagesFetch = () => {
@@ -39,7 +44,7 @@ class App extends Component {
       .then((imagesArr) => this.checkNewFetchImages(imagesArr.hits))
       .catch((error) => this.setState({ error }))
       .finally(() =>
-        this.setState({ loading: !this.state.loading }),
+        this.setState({ loading: false }),
       );
   };
 
@@ -66,17 +71,16 @@ class App extends Component {
 
   onClickLoadMore = () => {
     this.searchImagesFetch();
-
     // this.scrollGallery();
   };
 
   // scrollGallery = () => {
-    //   setTimeout(() => {
-    //   window.scrollTo({
-    //     top: document.documentElement.scrollHeight,
-    //     behavior: 'smooth',
-    //   });
-    // }, 500);
+  //     setTimeout(() => {
+  //     window.scrollTo({
+  //       top: document.documentElement.scrollHeight,
+  //       behavior: 'smooth',
+  //     });
+  //   }, 500);
   // };
 
   modalOpen = (largeImage) => {
