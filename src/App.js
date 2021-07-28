@@ -24,12 +24,8 @@ class App extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevState.searchQuery !== this.state.searchQuery) {
       this.searchImagesFetch();
-      // window.scrollTo({
-      //     top: 0,
-      //     behavior: 'smooth',
-      //   });
     }
-    else if (this.state.page > 2) {
+    else if (this.state.page !== 1) {
         window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
@@ -101,19 +97,19 @@ class App extends Component {
   render() {
     const { loading, error, images, showModal, largeImage } = this.state;
     return (
-			<div>
-				<ToastContainer autoClose={3000} />
-				{error && <h1>error.message</h1>}
-				<Searchbar onSubmit={this.handleFormSubmit} />
+      <div>
+        <ToastContainer autoClose={3000} />
+        {error && <h1>error.message</h1>}
+        <Searchbar onSubmit={this.handleFormSubmit} />
 
-				{images && <ImageGallery images={images} modalOpen={this.modalOpen} />}
-				{showModal && (
-					<Modal modalClose={this.modalClose} largeImage={largeImage} />
-				)}
-				{loading && <Loader />}
-				{images.length !== 0 && <Button onClick={this.searchImagesFetch} />}
-			</div>
-		);
+        {images && <ImageGallery images={images} modalOpen={this.modalOpen} />}
+        {showModal && (
+          <Modal modalClose={this.modalClose} largeImage={largeImage} />
+        )}
+        {loading && <Loader />}
+        {images.length !== 0 && <Button onClick={this.searchImagesFetch} />}
+      </div>
+    );
   }
 }
 
